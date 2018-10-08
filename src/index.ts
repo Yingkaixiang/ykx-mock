@@ -8,7 +8,11 @@ import mocks from './mock/';
 const app = new Koa();
 const router = new Router();
 
-app.use(cors());
+app.use(
+  cors({
+    credentials: true,
+  }),
+);
 
 Object.keys(mocks).forEach((key) => {
   const req = key.split(' ');
