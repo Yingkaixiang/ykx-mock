@@ -10,6 +10,9 @@ const router = new Router();
 
 app.use(
   cors({
+    // Access-Control-Allow-Credentials
+    // 允许跨域 ajax 操作 cookie
+    // 前端需要在 http 请求中添加 withCredentials
     credentials: true,
   }),
 );
