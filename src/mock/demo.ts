@@ -1,7 +1,7 @@
-import Mock from 'mockjs';
-
-export default {
-  'GET /login': () => {
-    return { status: 1 };
-  },
+export default (Mock) => {
+  return {
+    'GET /login': () => {
+      return { name: Mock.mock('@cname') };
+    },
+  };
 };

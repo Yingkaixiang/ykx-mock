@@ -1,4 +1,6 @@
 import * as cors from '@koa/cors';
+import { ApolloServer, gql } from 'apollo-server-koa';
+import chalk from 'chalk';
 import * as Koa from 'koa';
 import * as Router from 'koa-router';
 import * as yargs from 'yargs';
@@ -28,5 +30,26 @@ Object.keys(mocks).forEach((key) => {
 
 app.use(router.routes()).use(router.allowedMethods());
 
+const typeDefs = gql`
+  type Query {
+    hello: String
+  }
+`;
+const resolvers = {
+  Query: {
+    hello: () => 'Hello world!',
+  },
+};
+
+const server = new ApolloServer({ typeDefs, resolvers });
+server.applyMiddleware({ app });
+
 const port = yargs.argv.p || 3000;
-app.listen(port);
+
+app.listen({ port }, () =>
+  console.log(
+    chalk.inverse(
+      `🚀 Server ready at http://localhost:4000${server.graphqlPath}`,
+    ),
+  ),
+);

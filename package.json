@@ -23,6 +23,9 @@
   },
   "dependencies": {
     "@koa/cors": "2",
+    "apollo-server-koa": "^2.0.0-rc.12",
+    "chalk": "^2.4.1",
+    "graphql": "^14.0.2",
     "koa": "^2.5.3",
     "koa-router": "^7.4.0",
     "mockjs": "^1.0.1-beta3",
