@@ -6,6 +6,7 @@ import * as Router from 'koa-router';
 import * as yargs from 'yargs';
 
 import mocks from './mock/';
+import { probability, sleep } from './util';
 
 const app = new Koa();
 const router = new Router();
@@ -23,7 +24,13 @@ Object.keys(mocks).forEach((key) => {
   const req = key.split(' ');
   const method = req[0].toLowerCase();
   const url = req[1];
-  router[method](url, (ctx) => {
+  router[method](url, async (ctx) => {
+    const timeout = probability({
+      '2': 10000,
+      '8': 5000,
+      '90': 1000,
+    });
+    await sleep(timeout);
     ctx.body = mocks[key](ctx);
   });
 });
@@ -47,9 +54,5 @@ server.applyMiddleware({ app });
 const port = yargs.argv.p || 3000;
 
 app.listen({ port }, () =>
-  console.log(
-    chalk.inverse(
-      `🚀 Server ready at http://localhost:4000${server.graphqlPath}`,
-    ),
-  ),
+  console.log(chalk.inverse(`🚀 Server ready at http://localhost:${port}`)),
 );
